@@ -1,32 +1,13 @@
-from dataclasses import dataclass
-from enum import Enum
+from Device import *
 
+if __name__== '__main__':
+    try:
+        device: Device = open_device('/devices/dev1')
 
-class DeviceMode (Enum):
-    ReadOnly = 0x01
-    WriteOnly = 0x02
-    ReadWrite = 0x03
+        for _ in range(3):
+            print(read_line(device))
 
-#поля - переменные, методы - функции
-@dataclass
-class Device:
-    mode: DeviceMode
-    data: list
+    except Exception as e:
+        print(f'error: {e}')
 
-
-devices = {
-    '/devices/dev0': Device(DeviceMode.ReadOnly, ['line_1', 'line_2']),
-    '/devices/dev1': Device(DeviceMode.WriteOnly, ['']),
-    '/devices/dev2': Device(DeviceMode.ReadWrite, []),
-    '/devices/dev3': Device(DeviceMode.ReadWrite, ['1', '2', '**']),
-    '/devices/dev0': Device(DeviceMode.ReadOnly, ['line_1', 'line_2']),
-}
-
-device = devices[input('/devices/dev3']
-
-for i in range(3):
-    if not device.mode == DeviceMode.ReadOnly:
-        raise PermissionError('Reading from the device not allowed.')
-
-    print(device.data.pop(0))
 
